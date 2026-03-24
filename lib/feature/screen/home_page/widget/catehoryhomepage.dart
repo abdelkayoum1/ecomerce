@@ -14,7 +14,7 @@ class Catehoryhomepage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: listcategory[index].color,
+              color: listcategory[index].bgColor,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
@@ -43,7 +43,7 @@ class Catehoryhomepage extends StatelessWidget {
                       ),
 
                       Text(
-                        listcategory[index].count,
+                        listcategory[index].productsCount.toString(),
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,

@@ -1,4 +1,5 @@
 import 'package:ecommerce/feature/screen/home_page/home_page.dart';
+import 'package:ecommerce/feature/screen/home_page/widget/carousel.dart';
 import 'package:ecommerce/feature/screen/home_page/widget/homepagelistviews.dart';
 import 'package:flutter/material.dart';
 

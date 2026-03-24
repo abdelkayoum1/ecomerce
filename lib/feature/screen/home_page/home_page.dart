@@ -77,33 +77,3 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 }
-
-class Carousel extends StatelessWidget {
-  const Carousel({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FlutterCarousel.builder(
-      options: FlutterCarouselOptions(
-        height: 200.0,
-
-        showIndicator: true,
-        // autoPlay: true,
-        slideIndicator: CircularSlideIndicator(),
-      ),
-      itemCount: list.length,
-      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-        return Padding(
-          padding: const EdgeInsetsDirectional.only(end: 8.0),
-          child: Image.asset(
-            fit: BoxFit.fill,
-            list[itemIndex].image,
-            color: Colors.red,
-            height: 50,
-            width: double.infinity,
-          ),
-        );
-      },
-    );
-  }
-}
