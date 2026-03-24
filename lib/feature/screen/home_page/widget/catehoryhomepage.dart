@@ -1,4 +1,4 @@
-import 'package:ecommerce/feature/screen/home_page/data/models/category_models.dart';
+import 'package:ecommerce/feature/screen/detailproduct/screen/data/model/category_models.dart';
 import 'package:flutter/material.dart';
 
 class Catehoryhomepage extends StatelessWidget {

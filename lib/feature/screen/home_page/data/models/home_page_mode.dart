@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class HomePageModel {
   final String id;
   final String name;
@@ -6,8 +7,10 @@ class HomePageModel {
   final double price;
   final bool isFavorite;
   final String category;
+  final int quality;
 
   HomePageModel({
+    this.quality = 0,
     required this.id,
     required this.name,
     required this.imgUrl,
@@ -16,6 +19,28 @@ class HomePageModel {
     this.isFavorite = false,
     required this.category,
   });
+
+  HomePageModel copyWith({
+    String? id,
+    String? name,
+    String? imgUrl,
+    String? description,
+    double? price,
+    bool? isFavorite,
+    String? category,
+    int? quality,
+  }) {
+    return HomePageModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      imgUrl: imgUrl ?? this.imgUrl,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      isFavorite: isFavorite ?? this.isFavorite,
+      category: category ?? this.category,
+      quality: quality ?? this.quality,
+    );
+  }
 }
 
 List<HomePageModel> list = [

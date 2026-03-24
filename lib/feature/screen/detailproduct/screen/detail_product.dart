@@ -1,0 +1,143 @@
+import 'dart:ui';
+
+import 'package:ecommerce/feature/screen/detailproduct/manager/cubit/detail_cubit_cubit.dart';
+import 'package:ecommerce/feature/screen/detailproduct/screen/widget/counter.dart';
+import 'package:ecommerce/feature/screen/home_page/data/models/home_page_mode.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class DetailProduct extends StatelessWidget {
+  final HomePageModel list;
+  const DetailProduct({super.key, required this.list});
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: BlocProvider(
+        create: (context) => DetailCubitCubit(),
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            title: Text('Detail Product'),
+            actions: [
+              IconButton(onPressed: () {}, icon: Icon(Icons.favorite_sharp)),
+            ],
+          ),
+          body: Stack(
+            children: [
+              Container(
+                height: size * 0.5,
+                decoration: BoxDecoration(color: Colors.grey.shade100),
+                // color: Colors.green,
+                // width: double.infinity,
+                // height: 250,
+                child: Column(
+                  children: [
+                    SizedBox(height: 50),
+                    Image.network(
+                      list.imgUrl,
+                      height: size * 0.4,
+                      width: double.infinity,
+                      fit: BoxFit.fill,
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.only(top: size * 0.5),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [BoxShadow(color: Colors.black, blurRadius: 6)],
+
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
+                    ),
+                  ),
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 10,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              list.name,
+                              style: Theme.of(context).textTheme.titleLarge!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            BlocBuilder<DetailCubitCubit, DetailCubitState>(
+                              builder: (context, state) {
+                                if (state is DetailCubitcounterqualiter) {
+                                  return Counter(
+                                    cubit: context.read<DetailCubitCubit>(),
+                                    quality: list.id.toString(),
+                                    value: state.quality,
+                                  );
+                                } else {
+                                  return SizedBox.shrink();
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.star, color: Colors.yellowAccent),
+
+                                Text(
+                                  '${list.price}',
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  '(320 Review),',
+                                  style: Theme.of(context).textTheme.titleSmall!
+                                      .copyWith(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Avaliable is stok',
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
