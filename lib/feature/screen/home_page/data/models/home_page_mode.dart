@@ -10,11 +10,8 @@ class HomePageModel {
   final double price;
   final bool isFavorite;
   final String category;
-  final int quality;
-  final ProductSize? size;
 
   HomePageModel({
-    this.quality = 0,
     required this.id,
     required this.name,
     required this.imgUrl,
@@ -22,7 +19,6 @@ class HomePageModel {
     required this.price,
     this.isFavorite = false,
     required this.category,
-    this.size,
   });
 
   HomePageModel copyWith({
@@ -44,8 +40,6 @@ class HomePageModel {
       price: price ?? this.price,
       isFavorite: isFavorite ?? this.isFavorite,
       category: category ?? this.category,
-      quality: quality ?? this.quality,
-      size: size ?? this.size,
     );
   }
 }

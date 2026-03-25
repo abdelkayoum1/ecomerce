@@ -250,9 +250,28 @@ class DetailProduct extends StatelessWidget {
                                       ),
                                       child: TextButton.icon(
                                         onPressed: () {
-                                          context
-                                              .read<DetailCubitCubit>()
-                                              .addtocart(list.id);
+                                          if (context
+                                                      .read<DetailCubitCubit>()
+                                                      .sizee !=
+                                                  null &&
+                                              context
+                                                      .read<DetailCubitCubit>()
+                                                      .quality >
+                                                  0) {
+                                            context
+                                                .read<DetailCubitCubit>()
+                                                .addtocart(list.id);
+                                          } else {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'please selected size and  qualiter',
+                                                ),
+                                              ),
+                                            );
+                                          }
                                         },
                                         label: Text(
                                           'Add To Cart',
