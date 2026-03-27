@@ -1,9 +1,9 @@
-import 'package:ecommerce/feature/screen/home_page/data/models/addtocart.dart';
-import 'package:ecommerce/feature/screen/home_page/data/models/home_page_mode.dart';
+import 'package:ecommerce/core/approuter.dart';
 import 'package:ecommerce/feature/screen/order/feature/screen/cart_cubit/cart_cubit_cubit.dart';
 import 'package:ecommerce/feature/screen/order/feature/screen/widget/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class Order extends StatelessWidget {
   const Order({super.key});
@@ -88,7 +88,9 @@ class Order extends StatelessWidget {
                       height: 50,
                       child: TextButton(
                         onPressed: () {
-                          //  context.read<CartCubitCubit>().remove(cart.id);
+                          GoRouter.of(
+                            context,
+                          ).push(Approuter.checkout, extra: state.addtocart);
                         },
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.deepPurple,
