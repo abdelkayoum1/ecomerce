@@ -1,5 +1,7 @@
 import 'package:ecommerce/core/approuter.dart';
+import 'package:ecommerce/feature/screen/Checkout/cubit/chackout_cubit_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class Shopping extends StatelessWidget {
@@ -8,9 +10,12 @@ class Shopping extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<ChackoutCubitCubit>(context);
     return InkWell(
       onTap: () {
-        GoRouter.of(context).push(Approuter.addcard);
+        GoRouter.of(
+          context,
+        ).push(Approuter.addcard).then((value) => cubit.getproduct());
       },
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -18,8 +23,6 @@ class Shopping extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Container(
-          // alignment: Alignment.bottomCenter,
-          //padding: EdgeInsets.symmetric(vertical: 15),
           width: double.infinity,
           height: 100,
           child: Column(

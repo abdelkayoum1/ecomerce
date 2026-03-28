@@ -1,5 +1,5 @@
-import 'package:ecommerce/feature/screen/Checkout/screen/checkout.dart';
-import 'package:ecommerce/feature/screen/Checkout/screen/widjet/add_new_card.dart';
+import 'package:ecommerce/feature/screen/Checkout/screen/checkout/checkout.dart';
+import 'package:ecommerce/feature/screen/Checkout/screen/checkout/widjet/add_new_card.dart';
 import 'package:ecommerce/feature/screen/detailproduct/screen/detail_product.dart';
 import 'package:ecommerce/feature/screen/home_page/data/models/addtocart.dart';
 import 'package:ecommerce/feature/screen/home_page/data/models/home_page_mode.dart';

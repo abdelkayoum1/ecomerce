@@ -1,4 +1,5 @@
 import 'package:ecommerce/core/approuter.dart';
+import 'package:ecommerce/feature/screen/Checkout/screen/checkout/checkout_cubit/pyment_cubitt.dart';
 import 'package:ecommerce/feature/screen/detailproduct/manager/cubit/detail_cubit_cubit.dart';
 
 import 'package:flutter/material.dart';
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => DetailCubitCubit())],
+      providers: [
+        BlocProvider(create: (context) => DetailCubitCubit()),
+        BlocProvider(create: (context) => PymentCubitt()),
+      ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

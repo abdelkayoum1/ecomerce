@@ -1,13 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/feature/screen/Checkout/cubit/chackout_cubit_cubit.dart';
-import 'package:ecommerce/feature/screen/Checkout/screen/widjet/shopping.dart';
+import 'package:ecommerce/feature/screen/Checkout/screen/checkout/models/pyment_model.dart';
+import 'package:ecommerce/feature/screen/Checkout/screen/checkout/widjet/list_tile.dart';
+import 'package:ecommerce/feature/screen/Checkout/screen/checkout/widjet/shopping.dart';
 import 'package:ecommerce/feature/screen/home_page/data/models/addtocart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Checkout extends StatelessWidget {
   final List<Addtocart> cart;
+
   const Checkout({super.key, required this.cart});
+
+  Widget chhosepymentcard(PymentModel? pyment) {
+    if (pyment != null) {
+      return ListTilee(pyment: pyment);
+    } else {
+      return Shopping(title: 'Add Methode payment');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +29,14 @@ class Checkout extends StatelessWidget {
         return cubit;
       },
       child: Scaffold(
-        appBar: AppBar(title: Text('payment'), centerTitle: true),
+        appBar: AppBar(title: Text('Checkout'), centerTitle: true),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: BlocBuilder<ChackoutCubitCubit, ChackoutCubitState>(
+            buildWhen: (previous, current) =>
+                current is ChackoutCubitloading ||
+                current is ChackoutCubitsucces ||
+                current is ChackoutCubitfailure,
             builder: (context, state) {
               if (state is ChackoutCubitfailure) {
                 return Center(child: Text(state.error));
@@ -127,9 +142,12 @@ class Checkout extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
                     SizedBox(height: 10),
-                    Shopping(title: 'Add Methode payment'),
+
+                    chhosepymentcard(state.choosepyment),
                     SizedBox(height: 10),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

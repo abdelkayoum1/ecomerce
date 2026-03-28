@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:ecommerce/feature/screen/Checkout/screen/checkout/models/pyment_model.dart';
 import 'package:ecommerce/feature/screen/home_page/data/models/addtocart.dart';
 import 'package:meta/meta.dart';
 
@@ -15,12 +16,16 @@ class ChackoutCubitCubit extends Cubit<ChackoutCubitState> {
       0,
       (previoure, price) => previoure + price.quality,
     );
+    final PymentModel? choosepyment = pymentmodel.isNotEmpty
+        ? pymentmodel.first
+        : null;
     print('object');
     emit(
       ChackoutCubitsucces(
         addtocart: cart,
         numproduct: numproduct,
         totalamount: gettotalamount(),
+        choosepyment: choosepyment,
       ),
     );
     print('222222222222222');
