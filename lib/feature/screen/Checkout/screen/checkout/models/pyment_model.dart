@@ -4,8 +4,10 @@ class PymentModel {
   final String cardholdername;
   final String expireddate;
   final String cvv;
+  String? ischecked;
 
   PymentModel({
+    this.ischecked,
     required this.id,
     required this.namecard,
     required this.cardholdername,
@@ -13,6 +15,8 @@ class PymentModel {
     required this.cvv,
   });
 }
+
+//List<PymentModel> pymentmodel = [];
 
 List<PymentModel> pymentmodel = [
   PymentModel(
