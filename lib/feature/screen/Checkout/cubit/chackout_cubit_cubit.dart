@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce/feature/screen/Checkout/screen/checkout/models/pyment_model.dart';
 import 'package:ecommerce/feature/screen/home_page/data/models/addtocart.dart';
+import 'package:ecommerce/feature/screen/locationn/model/location_model.dart';
 import 'package:meta/meta.dart';
 
 part 'chackout_cubit_state.dart';
@@ -19,6 +20,10 @@ class ChackoutCubitCubit extends Cubit<ChackoutCubitState> {
     final PymentModel? choosepyment = pymentmodel.isNotEmpty
         ? pymentmodel.first
         : null;
+
+    final LocationModel? chooselocation = location.isNotEmpty
+        ? location.first
+        : null;
     print('object');
     emit(
       ChackoutCubitsucces(
@@ -26,6 +31,7 @@ class ChackoutCubitCubit extends Cubit<ChackoutCubitState> {
         numproduct: numproduct,
         totalamount: gettotalamount(),
         choosepyment: choosepyment,
+        choselocation: chooselocation,
       ),
     );
     print('222222222222222');

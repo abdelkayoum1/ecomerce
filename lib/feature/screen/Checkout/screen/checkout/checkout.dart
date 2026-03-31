@@ -5,6 +5,9 @@ import 'package:ecommerce/feature/screen/Checkout/screen/checkout/models/pyment_
 import 'package:ecommerce/feature/screen/Checkout/screen/checkout/widjet/list_tile.dart';
 import 'package:ecommerce/feature/screen/Checkout/screen/checkout/widjet/shopping.dart';
 import 'package:ecommerce/feature/screen/home_page/data/models/addtocart.dart';
+import 'package:ecommerce/feature/screen/locationn/location.dart';
+import 'package:ecommerce/feature/screen/locationn/model/location_model.dart';
+import 'package:ecommerce/feature/screen/locationn/screnn/widget/list_tile_location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -27,8 +30,23 @@ class Checkout extends StatelessWidget {
     }
   }
 
+  Widget chooselocation(BuildContext context, LocationModel? location) {
+    if (location != null) {
+      return ListTileLocation(location: location);
+    } else {
+      return Shopping(
+        title: 'Add shipping Adress',
+        ontap: () {
+          GoRouter.of(context).push(Approuter.location);
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // final location = ModalRoute.settingsOf(context)!.arguments as LocationModel;
+
     return BlocProvider(
       create: (context) {
         final cubit = ChackoutCubitCubit();
@@ -63,12 +81,7 @@ class Checkout extends StatelessWidget {
                       ],
                     ),
 
-                    Shopping(
-                      title: 'Add shipping Adress',
-                      ontap: () {
-                        GoRouter.of(context).push(Approuter.location);
-                      },
-                    ),
+                    chooselocation(context, state.choselocation),
                     SizedBox(height: 10),
                     Text(
                       'Product (${state.numproduct}):',

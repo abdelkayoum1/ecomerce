@@ -54,7 +54,7 @@ class LocationModel {
 }
 
 List<LocationModel> location = [
-  LocationModel(id: '1', city: 'Cairo', country: 'Egypt'),
-  LocationModel(id: '2', city: 'Giza', country: 'Egypt'),
+  LocationModel(id: '1', city: 'Cairo', country: 'alger'),
+  LocationModel(id: '2', city: 'Giza', country: 'dubia'),
   LocationModel(id: '3', city: 'Alexandria', country: 'Egypt'),
 ];

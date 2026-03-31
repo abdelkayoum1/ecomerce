@@ -12,8 +12,10 @@ final class ChackoutCubitsucces extends ChackoutCubitState {
   final int numproduct;
   final double totalamount;
   final PymentModel? choosepyment;
+  final LocationModel? choselocation;
 
   ChackoutCubitsucces({
+    this.choselocation,
     required this.addtocart,
     required this.numproduct,
     required this.totalamount,
