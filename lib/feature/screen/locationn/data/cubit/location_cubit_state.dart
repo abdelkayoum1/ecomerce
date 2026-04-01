@@ -20,3 +20,13 @@ final class LocationCubitInitial extends LocationCubitState {}
 final class LocationCubitloading extends LocationCubitState {}
 
 final class LocationCubitsucces extends LocationCubitState {}
+
+final class AddLocationCubitloading extends LocationCubitState {}
+
+final class AddLocationCubitsucces extends LocationCubitState {}
+
+final class AddLocationCubitfailure extends LocationCubitState {
+  final String error;
+
+  AddLocationCubitfailure({required this.error});
+}

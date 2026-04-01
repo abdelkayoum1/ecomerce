@@ -26,4 +26,20 @@ class LocationCubitCubit extends Cubit<LocationCubitState> {
       print('locationlocationlocation');
     });
   }
+
+  void addlocation(String locationn) {
+    emit(AddLocationCubitloading());
+    Future.delayed(Duration(seconds: 1), () {
+      final addlocation = LocationModel(
+        id: DateTime.now().toString(),
+        city: locationn.split('-')[0],
+        country: locationn.split('-')[1],
+      );
+      location.add(addlocation);
+      print('locationadd');
+      emit(AddLocationCubitsucces());
+      emit(FetchLocationCubitsucces(location: location));
+      print('locationadddddddddddddd');
+    });
+  }
 }

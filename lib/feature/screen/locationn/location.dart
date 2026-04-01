@@ -12,12 +12,14 @@ class Location extends StatefulWidget {
 }
 
 class _LocationState extends State<Location> {
+  TextEditingController location = TextEditingController();
+  String locationtextfield = '';
   LocationModel? locationid;
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LocationCubitCubit>(context);
     return BlocProvider(
       create: (context) {
-        final cubit = LocationCubitCubit();
         cubit.fetchlocation();
         return cubit;
       },
@@ -26,125 +28,163 @@ class _LocationState extends State<Location> {
         backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Choose location',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Choose location',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
 
-              Textfieledd(
-                title: 'Youre Location',
-                sufixe: Icon(Icons.add),
-                prefixIcon: Icon(Icons.location_on),
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Select location',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-
-              BlocBuilder<LocationCubitCubit, LocationCubitState>(
-                buildWhen: (previous, current) =>
-                    current is FetchLocationCubitloading ||
-                    current is FetchLocationCubitsucces,
-                builder: (context, state) {
-                  if (state is FetchLocationCubitloading) {
-                    return Center(child: CircularProgressIndicator.adaptive());
-                  } else if (state is FetchLocationCubitsucces) {
-                    final location = state.location;
-                    return ListView.separated(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final locationitem = location[index];
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.grey.shade200,
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              // ontap(location[index].id);
-                              locationid = locationitem;
-                              print(locationitem.id);
-                              // Navigator.pop(context, location[index]);
+                Textfieledd(
+                  controller: location,
+                  title: 'Youre Location',
+                  sufixe: Icon(Icons.add),
+                  prefixIcon:
+                      BlocBuilder<LocationCubitCubit, LocationCubitState>(
+                        buildWhen: (previous, current) =>
+                            current is AddLocationCubitsucces ||
+                            current is AddLocationCubitloading,
+                        builder: (context, state) {
+                          if (state is AddLocationCubitloading) {
+                            return IconButton(
+                              onPressed: null,
+                              icon: CircularProgressIndicator.adaptive(),
+                            );
+                          }
+                          return IconButton(
+                            onPressed: () {
+                              if (location.text.isNotEmpty) {
+                                print(location);
+                                cubit.addlocation(location.text);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'le champ text fieled is vide',
+                                    ),
+                                  ),
+                                );
+                              }
                             },
-                            child: ListTile(
-                              title: Text(locationitem.city),
-                              subtitle: Text(
-                                locationitem.country,
-                                style: Theme.of(context).textTheme.titleSmall!
-                                    .copyWith(color: Colors.grey),
-                              ),
-                              trailing: ClipOval(
-                                child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
+                            icon: Icon(Icons.location_on, color: Colors.blue),
+                          );
+                        },
+                      ),
+                ),
 
-                                    image: DecorationImage(
-                                      image: AssetImage('assets/location.png'),
+                SizedBox(height: 10),
+                Text(
+                  'Select location',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+
+                BlocBuilder<LocationCubitCubit, LocationCubitState>(
+                  buildWhen: (previous, current) =>
+                      current is FetchLocationCubitloading ||
+                      current is FetchLocationCubitsucces,
+                  builder: (context, state) {
+                    if (state is FetchLocationCubitloading) {
+                      return Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    } else if (state is FetchLocationCubitsucces) {
+                      final location = state.location;
+                      return ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final locationitem = location[index];
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.grey.shade200,
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                // ontap(location[index].id);
+                                locationid = locationitem;
+                                print(locationitem.id);
+                                // Navigator.pop(context, location[index]);
+                              },
+                              child: ListTile(
+                                title: Text(locationitem.city),
+                                subtitle: Text(
+                                  locationitem.country,
+                                  style: Theme.of(context).textTheme.titleSmall!
+                                      .copyWith(color: Colors.grey),
+                                ),
+                                trailing: ClipOval(
+                                  child: Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/location.png',
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Divider(thickness: 1, color: Colors.black);
-                      },
-                      itemCount: location.length,
-                    );
-                  } else {
-                    return Center(child: SizedBox.shrink());
-                  }
-                },
-              ),
-              SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: BlocConsumer<LocationCubitCubit, LocationCubitState>(
-                  listener: (context, state) {
-                    if (state is LocationCubitsucces) {
-                      Navigator.pop(context, locationid);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LocationCubitloading) {
-                      return ElevatedButton(
-                        onPressed: null,
-                        child: CircularProgressIndicator.adaptive(),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider(thickness: 1, color: Colors.black);
+                        },
+                        itemCount: location.length,
                       );
+                    } else {
+                      return Center(child: SizedBox.shrink());
                     }
-                    return ElevatedButton(
-                      onPressed: () {
-                        context.read<LocationCubitCubit>().confirmelocation(
-                          locationid,
-                          locationid!.id,
-                        );
-                      },
-                      child: Text('Confirmer'),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.deepPurple,
-                        foregroundColor: Colors.white,
-                      ),
-                    );
                   },
                 ),
-              ),
-            ],
+                SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: BlocConsumer<LocationCubitCubit, LocationCubitState>(
+                    listener: (context, state) {
+                      if (state is LocationCubitsucces) {
+                        Navigator.pop(context, locationid);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is LocationCubitloading) {
+                        return ElevatedButton(
+                          onPressed: null,
+                          child: CircularProgressIndicator.adaptive(),
+                        );
+                      }
+                      return ElevatedButton(
+                        onPressed: () {
+                          context.read<LocationCubitCubit>().confirmelocation(
+                            locationid,
+                            locationid!.id,
+                          );
+                        },
+                        child: Text('Confirmer'),
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.deepPurple,
+                          foregroundColor: Colors.white,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -4,9 +4,11 @@ class Textfieledd extends StatelessWidget {
   final String title;
   final Widget? prefixIcon;
   final Widget? sufixe;
+  final TextEditingController? controller;
   const Textfieledd({
     super.key,
     required this.title,
+    required this.controller,
     this.prefixIcon,
     this.sufixe,
   });
@@ -14,6 +16,7 @@ class Textfieledd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         suffixIcon: sufixe,
