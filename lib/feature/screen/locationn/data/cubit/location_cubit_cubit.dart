@@ -17,4 +17,13 @@ class LocationCubitCubit extends Cubit<LocationCubitState> {
       emit(LocationCubitsucces());
     });
   }
+
+  void fetchlocation() {
+    emit(FetchLocationCubitloading());
+    Future.delayed(Duration(seconds: 1), () {
+      print('location');
+      emit(FetchLocationCubitsucces(location: location));
+      print('locationlocationlocation');
+    });
+  }
 }

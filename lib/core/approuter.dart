@@ -3,8 +3,10 @@ import 'package:ecommerce/feature/screen/Checkout/screen/checkout/widjet/add_new
 import 'package:ecommerce/feature/screen/detailproduct/screen/detail_product.dart';
 import 'package:ecommerce/feature/screen/home_page/data/models/addtocart.dart';
 import 'package:ecommerce/feature/screen/home_page/data/models/home_page_mode.dart';
+import 'package:ecommerce/feature/screen/locationn/data/cubit/location_cubit_cubit.dart';
 import 'package:ecommerce/feature/screen/locationn/location.dart';
 import 'package:ecommerce/feature/screen/nab_bar2/nav_bar_2.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class Approuter {
@@ -30,7 +32,13 @@ class Approuter {
       ),
       GoRoute(path: addcard, builder: (context, state) => AddNewCard()),
 
-      GoRoute(path: location, builder: (context, state) => Location()),
+      GoRoute(
+        path: location,
+        builder: (context, state) => BlocProvider(
+          create: (context) => LocationCubitCubit(),
+          child: Location(),
+        ),
+      ),
     ],
   );
 }

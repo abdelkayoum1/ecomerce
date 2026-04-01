@@ -16,7 +16,11 @@ class _LocationState extends State<Location> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LocationCubitCubit(),
+      create: (context) {
+        final cubit = LocationCubitCubit();
+        cubit.fetchlocation();
+        return cubit;
+      },
       child: Scaffold(
         appBar: AppBar(title: Text('adresse')),
         backgroundColor: Colors.white,
@@ -47,51 +51,65 @@ class _LocationState extends State<Location> {
               ),
               SizedBox(height: 10),
 
-              ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.grey.shade200,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        // ontap(location[index].id);
-                        locationid = location[index];
-                        print(location[index].id);
-                        // Navigator.pop(context, location[index]);
-                      },
-                      child: ListTile(
-                        title: Text(location[index].city),
-                        subtitle: Text(
-                          location[index].country,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleSmall!.copyWith(color: Colors.grey),
-                        ),
-                        trailing: ClipOval(
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
+              BlocBuilder<LocationCubitCubit, LocationCubitState>(
+                buildWhen: (previous, current) =>
+                    current is FetchLocationCubitloading ||
+                    current is FetchLocationCubitsucces,
+                builder: (context, state) {
+                  if (state is FetchLocationCubitloading) {
+                    return Center(child: CircularProgressIndicator.adaptive());
+                  } else if (state is FetchLocationCubitsucces) {
+                    final location = state.location;
+                    return ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final locationitem = location[index];
+                        return DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.grey.shade200,
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              // ontap(location[index].id);
+                              locationid = locationitem;
+                              print(locationitem.id);
+                              // Navigator.pop(context, location[index]);
+                            },
+                            child: ListTile(
+                              title: Text(locationitem.city),
+                              subtitle: Text(
+                                locationitem.country,
+                                style: Theme.of(context).textTheme.titleSmall!
+                                    .copyWith(color: Colors.grey),
+                              ),
+                              trailing: ClipOval(
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
 
-                              image: DecorationImage(
-                                image: AssetImage('assets/location.png'),
+                                    image: DecorationImage(
+                                      image: AssetImage('assets/location.png'),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                  );
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Divider(thickness: 1, color: Colors.black);
+                      },
+                      itemCount: location.length,
+                    );
+                  } else {
+                    return Center(child: SizedBox.shrink());
+                  }
                 },
-                separatorBuilder: (context, index) {
-                  return Divider(thickness: 1, color: Colors.black);
-                },
-                itemCount: location.length,
               ),
               SizedBox(height: 10),
               SizedBox(
