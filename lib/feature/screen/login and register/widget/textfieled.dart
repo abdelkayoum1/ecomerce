@@ -1,40 +1,37 @@
 import 'package:flutter/material.dart';
 
-class Textfieled extends StatelessWidget {
-  final String title;
-  final TextInputType? keyboardType;
+class Textfieled1 extends StatelessWidget {
+  final String text;
   final Widget? prefixIcon;
   final Widget? sufixicon;
-  final TextEditingController? controller;
-  const Textfieled({
+  final TextEditingController title;
+  const Textfieled1({
     super.key,
+    required this.text,
     this.prefixIcon,
-    required this.title,
-    this.keyboardType,
-    this.controller,
     this.sufixicon,
+    required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // validator:(value) => value.isEmpty,
-      controller: controller,
-      keyboardType: keyboardType,
+      controller: title,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return '$title! your champ is vide';
+          return 'le champ$title est vide';
         }
-        return null;
       },
+
       decoration: InputDecoration(
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
         ),
+        prefixIcon: prefixIcon,
+        suffixIcon: sufixicon,
+        hintText: text,
         fillColor: Colors.grey.shade200,
         filled: true,
-        hint: Text(title),
-        prefixIcon: prefixIcon,
         border: OutlineInputBorder(borderSide: BorderSide.none),
       ),
     );
