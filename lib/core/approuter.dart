@@ -19,7 +19,7 @@ class Approuter {
   static final addcard = '/addcard';
   static final location = '/location';
   static final navbar2 = '/navbar2';
-  static final register = '/register';
+  // static final register = '/register';
   static final login = '/login';
 
   // GoRouter configuration

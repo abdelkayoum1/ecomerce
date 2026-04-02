@@ -1,9 +1,11 @@
 import 'package:ecommerce/core/approuter.dart';
 
 import 'package:ecommerce/feature/screen/login%20and%20register/widget/container.dart';
+import 'package:ecommerce/feature/screen/login%20and%20register/widget/login_cubit%20%20and%20register_cubit/login_cubit_cubit.dart';
 import 'package:ecommerce/feature/screen/login%20and%20register/widget/textfieled.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -59,6 +61,7 @@ class _LoginnState extends State<Loginn> {
                 ),
                 SizedBox(height: 20),
                 Textfieled1(
+                  obscureText: false,
                   title: email,
                   text: 'Entrer your email',
                   prefixIcon: Icon(Icons.check),
@@ -75,9 +78,14 @@ class _LoginnState extends State<Loginn> {
                 SizedBox(height: 10),
 
                 Textfieled1(
+                  obscureText: true,
                   title: password,
                   text: 'Entrer your Password',
-                  prefixIcon: Icon(Icons.password),
+                  prefixIcon: Icon(Icons.visibility),
+                  sufixIcon: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.visibility),
+                  ),
                 ),
                 SizedBox(height: 10),
                 Containerr(
@@ -89,24 +97,52 @@ class _LoginnState extends State<Loginn> {
                 SizedBox(
                   width: double.infinity,
                   height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (key.currentState!.validate()) {
+                  child: BlocConsumer<LoginCubitCubit, LoginCubitState>(
+                    listener: (context, state) {
+                      if (state is LoginCubitsucces) {
                         GoRouter.of(context).push(Approuter.navbar2);
+                      } else if (state is LoginCubitfailure) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(state.error)));
                       }
                     },
-                    child: Text("Login"),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
-                      foregroundColor: Colors.white,
-                    ),
+
+                    builder: (context, state) {
+                      if (state is LoginCubitlaoding) {
+                        return ElevatedButton(
+                          onPressed: null,
+                          child: CircularProgressIndicator.adaptive(),
+                        );
+                      }
+                      return ElevatedButton(
+                        onPressed: () {
+                          if (key.currentState!.validate()) {
+                            context.read<LoginCubitCubit>().loginn(
+                              email.text,
+                              password.text,
+                            );
+                          }
+                        },
+                        child: Text("Login"),
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.deepPurple,
+                          foregroundColor: Colors.white,
+                        ),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(height: 20),
-                Containerr(
-                  title: 'Don\'t Have  an Accounts?   register',
-                  textAlign: TextAlign.center,
-                  color: Colors.deepPurple,
+                InkWell(
+                  onTap: () {
+                    GoRouter.of(context).pop();
+                  },
+                  child: Containerr(
+                    title: 'Don\'t Have  an Accounts?   register',
+                    textAlign: TextAlign.center,
+                    color: Colors.deepPurple,
+                  ),
                 ),
                 SizedBox(height: 20),
                 Containerr(

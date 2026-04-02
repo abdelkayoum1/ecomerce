@@ -1,20 +1,23 @@
 import 'package:ecommerce/core/approuter.dart';
 import 'package:ecommerce/feature/screen/Checkout/screen/checkout/widjet/textfieled.dart';
 import 'package:ecommerce/feature/screen/locationn/screnn/widget/textfieledd.dart';
+import 'package:ecommerce/feature/screen/login%20and%20register/data/repo/login_repo_imp.dart';
 import 'package:ecommerce/feature/screen/login%20and%20register/widget/container.dart';
+import 'package:ecommerce/feature/screen/login%20and%20register/widget/login_cubit%20%20and%20register_cubit/login_cubit_cubit.dart';
 import 'package:ecommerce/feature/screen/login%20and%20register/widget/textfieled.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
 
   @override
-  State<Register> createState() => _LoginnState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginnState extends State<Register> {
+class _RegisterState extends State<Register> {
   TextEditingController email = TextEditingController();
 
   TextEditingController password = TextEditingController();
@@ -61,6 +64,7 @@ class _LoginnState extends State<Register> {
                 ),
                 SizedBox(height: 20),
                 Textfieled1(
+                  obscureText: false,
                   title: username,
                   text: 'Entrer your Username',
                   prefixIcon: Icon(Icons.person),
@@ -75,6 +79,7 @@ class _LoginnState extends State<Register> {
                 ),
                 SizedBox(height: 20),
                 Textfieled1(
+                  obscureText: false,
                   title: email,
                   text: 'Entrer your email',
                   prefixIcon: Icon(Icons.check),
@@ -91,26 +96,51 @@ class _LoginnState extends State<Register> {
                 SizedBox(height: 10),
 
                 Textfieled1(
+                  obscureText: true,
                   title: password,
                   text: 'Entrer your Password',
                   prefixIcon: Icon(Icons.password),
+                  sufixIcon: Icon(Icons.visibility),
                 ),
                 SizedBox(height: 10),
 
                 SizedBox(
                   width: double.infinity,
                   height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (key.currentState!.validate()) {
+                  child: BlocConsumer<LoginCubitCubit, LoginCubitState>(
+                    listener: (context, state) {
+                      if (state is RegisterCubitsucces) {
                         GoRouter.of(context).push(Approuter.login);
+                      } else if (state is RegisterCubitfailure) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(state.error)));
                       }
                     },
-                    child: Text("Register"),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
-                      foregroundColor: Colors.white,
-                    ),
+
+                    builder: (context, state) {
+                      if (state is RegisterCubitlaoding) {
+                        return ElevatedButton(
+                          onPressed: null,
+                          child: CircularProgressIndicator.adaptive(),
+                        );
+                      }
+                      return ElevatedButton(
+                        onPressed: () {
+                          if (key.currentState!.validate()) {
+                            context.read<LoginCubitCubit>().sign(
+                              email.text,
+                              password.text,
+                            );
+                          }
+                        },
+                        child: Text("Register"),
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.deepPurple,
+                          foregroundColor: Colors.white,
+                        ),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(height: 20),

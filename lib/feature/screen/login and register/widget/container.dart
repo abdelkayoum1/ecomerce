@@ -15,21 +15,16 @@ class Containerr extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        GoRouter.of(context).push(Approuter.register);
-      },
-      child: Container(
-        width: double.infinity,
-        //  color: Colors.red,
-        child: Text(
-          textAlign: textAlign,
-          title,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            // fontWeight: FontWeight.bold,
-            color: color,
-            fontSize: 15,
-          ),
+    return Container(
+      width: double.infinity,
+      //  color: Colors.red,
+      child: Text(
+        textAlign: textAlign,
+        title,
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+          // fontWeight: FontWeight.bold,
+          color: color,
+          fontSize: 15,
         ),
       ),
     );
