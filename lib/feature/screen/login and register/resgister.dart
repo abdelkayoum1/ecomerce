@@ -110,7 +110,10 @@ class _RegisterState extends State<Register> {
                   child: BlocConsumer<LoginCubitCubit, LoginCubitState>(
                     listener: (context, state) {
                       if (state is RegisterCubitsucces) {
-                        GoRouter.of(context).push(Approuter.login);
+                        // GoRouter.of(context).push(Approuter.login);
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text('login succes')));
                       } else if (state is RegisterCubitfailure) {
                         ScaffoldMessenger.of(
                           context,
@@ -125,13 +128,17 @@ class _RegisterState extends State<Register> {
                           child: CircularProgressIndicator.adaptive(),
                         );
                       }
+                      print(username.text);
+
                       return ElevatedButton(
                         onPressed: () {
                           if (key.currentState!.validate()) {
                             context.read<LoginCubitCubit>().sign(
                               email.text,
                               password.text,
+                              username.text,
                             );
+                            print(username.text);
                           }
                         },
                         child: Text("Register"),

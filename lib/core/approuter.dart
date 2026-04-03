@@ -9,6 +9,7 @@ import 'package:ecommerce/feature/screen/locationn/data/cubit/location_cubit_cub
 import 'package:ecommerce/feature/screen/locationn/location.dart';
 import 'package:ecommerce/feature/screen/login%20and%20register/login.dart';
 import 'package:ecommerce/feature/screen/login%20and%20register/resgister.dart';
+import 'package:ecommerce/feature/screen/login%20and%20register/widget/login_cubit%20%20and%20register_cubit/login_cubit_cubit.dart';
 import 'package:ecommerce/feature/screen/nab_bar2/nav_bar_2.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

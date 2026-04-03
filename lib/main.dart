@@ -24,7 +24,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => LoginCubitCubit(LoginRepoImp())),
+        BlocProvider(
+          create: (context) {
+            final cubit = LoginCubitCubit(LoginRepoImp());
+            cubit.getuser();
+            return cubit;
+          },
+        ),
 
         BlocProvider(create: (context) => DetailCubitCubit()),
         BlocProvider(create: (context) => PymentCubitt()),

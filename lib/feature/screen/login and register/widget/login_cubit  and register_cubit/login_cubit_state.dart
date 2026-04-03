@@ -24,3 +24,13 @@ final class RegisterCubitfailure extends LoginCubitState {
 
   RegisterCubitfailure({required this.error});
 }
+
+final class Logoutloading extends LoginCubitState {}
+
+final class Logoutsucces extends LoginCubitState {}
+
+final class Logoutfailure extends LoginCubitState {
+  final String error;
+
+  Logoutfailure({required this.error});
+}
